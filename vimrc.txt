@@ -1,0 +1,116 @@
+该文档描述了vim的vimrc常用快捷键的设置及插件的安装
+一、设置选项
+    1、可使用 :h option-list 查看有哪些选项可设置
+    2、常用的选项设置(参见vimrc中的开头设置)
+二、映射
+几个常见名词概念：
+    1> map a b 表示按下a等于按下b
+    2> vmap/imap/nmap 分别表示在visual/insert/normal模式下的映射
+    3> noremap/map 分别表示非递归映射/递归映射
+    4> 递归映射：map a b; map c a 表示按下c等于按下a，同时按下a等于按下b，所以按下c实际是按下b
+    5> 非递归映射：noremap a b; noremap c a 表示按下c就是按下a不会递归成b
+    6> 任何时候都应该尽量使用非递归映射
+1、设置 leader 键：用于在insert模式下快捷操作的开始按键
+    let mapleader=',' 表示设置,为leader键，注意等号前后不能有空格
+2、map 命令介绍
+    imap = insert map 表示插入模式下的递归映射
+    nmap = normal map 表示普通模式下的递归映射
+    vmap = visual map 表示块选择模式下的递归映射
+    inoremap = insert no recursive map 表示插入模式下非递归映射
+    nnoremap = normal no recursive map 表示普通模式下非递归映射
+    vnoremap = visual no recursive map 表示块选择模式下非递归映射
+3、普适情况下的常用快捷映射
+    map <space> viw 表示按下空格时候选中整个单词
+    noremap <C-h> <C-w>h 表示normal/visual模式下按<Ctrl + h>直接切屏
+    noremap <C-j> <C-w>j 表示normal/visual模式下按<Ctrl + j>直接切屏
+    noremap <C-k> <C-w>k 表示normal/visual模式下按<Ctrl + k>直接切屏
+    noremap <C-l> <C-w>l 表示normal/visual模式下按<Ctrl + l>直接切屏
+4、insert模式下常用快捷映射
+    inoremap jj <Esc> 表示按下jj等于按下<Esc>进入normal模式
+    inoremap <leader>d <Esc>ddO 表示按下,d等于删除一行并另起一行进入插入模式
+    inoremap <leader>w <Esc>:w<cr> 表示按下,w等于保存文本
+5、normal模式下常用快捷映射
+    nnoremap - x 表示按-等于按x
+    nnoremap <leader>w :w<cr> 表示按下,w自动保存文件
+
+二、vim 插件
+1、常见常见种类：vim-plug, Vundle, Pathogen, Dein.Vim, volt，本配置采用 vim-plug
+2、搜索插件的方法：
+    1> Google搜索关键字查找想要的插件
+    2> https://vimawesome.com 中搜索
+3、安装 vim-plug
+    1> 终端执行：curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    2> ~/.vimrc 中增加两行内容
+        call plug#begin('~/.vim/plugged')
+        call plug#end()
+    3> 后面需要安装的插件就在上面两行内插入即可
+    4> 插件的安装即将插件的GitHub地址前缀删除，后面即为插件名，具体参见vimrc
+    5> 添加新插件需要打开vimrc执行 :PlugInstall
+4、vim-startify 插件
+    1> 介绍：vim 启动界面插件，使用 vim 打开时界面好看，同时会显示历史浏览记录
+    2> 插件命令：Plug 'mhinz/vim-startify'
+5、vim-airline 插件
+    1> 介绍：状态栏美化插件
+    2> 插件命令：Plug 'vim-airline/vim-airline'
+6、indentline 插件
+    1> 介绍：增加代码缩进线插件
+    2> 插件命令：Plug 'yggdroot/indentline'
+7、nerdtree 插件
+    1> 介绍：文件目录树管理
+    2> 插件命令：Plug 'scrooloose/nerdtree'
+    3> 快捷映射配置：
+        nnoremap <leader>v :NERDTreeFind<cr> 表示 ,v 打开NERDTree插件并找到当前文件名位置
+        nnoremap <leader>g :NERDTreeToggle<cr> 表示 ,v 打开/关闭NERDTree
+8、ctrlp 插件
+    1> 介绍：快速查找并打开一个文件
+    2> 插件命令：Plug 'ctrlpvim/ctrlp.vim'
+    3> 用法：normal模式按 Ctrl + p 后进行操作
+9、easymotion 插件
+    1> 方便移动到任意想要的位置
+    2> 插件命令：Plug 'easymotion/vim-easymotion'
+10、vim-surround 插件
+    1> 介绍：normal模式下增加、删除、修改成对内容
+    2> 插件命令：Plug 'tpope/vim-surround'
+    3> 使用命令：
+        ds(delete a surrounding): ds ( 表示删除 ()
+        cs(change a surrounding): cs " ' 表示将 " 修改为 '; cs ( [ 表示将 () 改为 []但是两端会加空格，因此一般使用 cs ( ]
+        ys(you add a surrounding): ys iw " 表示将单词两端添加 ""
+11、fzf 和 fzf.vim 插件
+    1> 介绍：命令行模糊搜索工具
+    2> 插件命令：
+        Plug 'junegunn/fzf', { 'do': './install --bin' }
+        Plug 'junegunn/fzf.vim'
+    3> 使用方法：
+        要想使用Ag功能需要先安装Ag：sudo apt-get install silversearcher-ag
+        Ag [PATTERN] 模糊搜索字符串
+        Files [PATH] 模糊搜索目录
+12、far.vim 插件
+    1> 介绍：多文件批量搜索和替换
+    2> 插件命令：Plug 'brooth/far.vim'
+    3> 使用方法：
+        :Far foo bar **/*.py
+        :Fardo
+13、vim-go 插件
+    1> 介绍：go语言最小配置
+    2> 插件命令：Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+14、python-mode 插件
+    1> 介绍：轻量级的 Python IDE
+    2> 插件命令：Plug 'python-mode/python-mode'
+15、tagbar 插件
+    1> 介绍：代码大纲
+    2> 插件命令：Plug 'majutsushi/tagbar'
+16、interestingwords 插件
+    1> 介绍：高亮感兴趣的单词
+    2> 插件命令：Plug 'lfv89/vim-interestingwords'
+17、deoplete.nvim 插件
+    1> 介绍：代码补全
+    2> 插件命令：Plug 'shougo/deoplete.nvim'
+    3> Note: 必须使用的vim8才能用该插件
+
+
+三、vim 配色
+1、vim-hybird 配色：w0ng/vim-hybird
+2、solarized 配色：altercation/vim-colors-solarized
+3、gruvbox 配色：morhetz/gruvbox
+
+Note: 我个人使用的是 warriors-away + vorange 配合的配色

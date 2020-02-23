@@ -1,0 +1,217 @@
+模式切换：
+normal -> visual v
+insert -> normal：
+Esc
+Ctrl + c(可能会中断某些插件，不推荐)
+Ctrl + [
+normal -> insert:
+a append 光标后插入
+i insert 光标处插入
+o open a line below 光标下一行插入
+A append after line 光标所在行末尾插入
+I insert before line 光标所在行的行首插入
+O open a line above 光标所在行的上一行插入
+
+normal模式下常用命令：
+保存：w
+退出：q
+强制退出不保存：q!
+保存退出：wq/x
+竖分屏：vs(vertical split)
+横分屏：sp(split) 
+全局替换：%s/foo/bar/g
+设置行号：set number/set nu
+快速跳转到最后一次编辑的地方并进入insert模式：gi
+移动到下个word/WORD开头：w/W
+移动到下个word/WORD结尾：e/E
+移动到上个word/WORD开头：b/B
+word指的是以非空白符分割的单词
+WORD指的是以空白符分割的单词
+f{char}：移动到char字符上
+F{char}：反向移动到char字符上
+t{char}：移动到char字符前一个字符
+如果第一次没搜到，可以使用;/,,继续搜索该行下一个/上一个
+0移动到行首第一个字符
+^移动到第一个非空白字符啊(不常用)
+$移动到行尾
+g_移动到行尾非空白字符(不常用)
+()：句子间移动(. ! ?为句子分割符)
+{}：段落间移动
+gg/G：移动到文件开头/结尾
+Ctrl + o：快速返回
+H/M/L：跳转到屏幕的开头(Head)/中间(Middle)/结尾(Lower)
+Ctrl + u/f：上下翻页(upword/forward)
+zz：把当前行置为屏幕中间
+x：快速删除一个字符
+daw/dw：快速删除一个单词包含后面的空白分隔符
+diw：快速删除一个单词但不删除后面的空白分隔符
+dt{char}：删除当前位置到char前的所有内容
+d$：删除当前位置到行尾的所有内容
+d0：删除当前位置到行首的所有内容
+dd：删除当前行内容
+    :e! 重新加载文件并且不保存当前内容
+
+    vim 快速修改命令
+    r(replace), c(change), s(substitute)
+    r{char}：将当前光标的字符修改为char
+    nr{char}:将当前光标后n个字符删除修改为n个char
+    s：删除当前字符并进入插入模式
+    ns：删除光标后n个字符然后进入插入模式
+    c：配合文本对象可快速进行修改
+    caw/cw：删除光标后整个单词(光标前的单词部分不删除)然后进入插入模式
+    ct{char}：删除当前位置到char前的所有内容然后进入插入模式
+    R：直接进入修改模式，同时输入的内容会替换已存在的内容，相当于overwrite模式
+    S：整行删除并进入插入模式
+    C：删除光标后整行的内容然后进入插入模式
+
+    vim 替换命令(substitute)，可配合正则表达式
+    :[range]s/{pattern}/{string}/[flags]
+    range表示范围，比如：10, 20表示10-20行，%表示全部
+    pattern是要替换的内容，string是替换后的字符串
+    Flags的常用的标志:
+        g(global)表示全局范围内执行
+        c(confirm)表示确认，可以确认或者拒绝修改
+        n(number)报告匹配到的次数而不替换，可以用来查询匹配次数
+
+    vim 多文件操作
+    vim 多文件打开
+        使用vim打开一个文件后使用 :e file 可再打开文件
+
+    Buffer Window Tab概念
+        Buffer：打开的一个文件的内存缓冲区
+        Window：Buffer可视化的分割区域
+        Tab：组织窗口为一个工作区
+    Buffer 操作：
+        :ls 列举当前文件缓冲区列表，然后使用 :b n 跳转到第n个文件缓冲区
+        :bpre :bnext :bfirst :blast :b buffer_name 可跳转到对应的文件缓冲区
+        以上命令均可以使用Tab补全，同时跳转前当前文件缓冲区的修改必须已保存
+    Window 操作：
+        水平分割：<Ctrl + w>s / :sp
+        垂直分割：<Ctrl + w>v / :vs
+        <Ctrl + w>w 窗口间循环切换
+        <Ctrl + w>h 切换到左边的窗口
+        <Ctrl + w>j 切换到下边的窗口
+        <Ctrl + w>k 切换到上边的窗口
+        <Ctrl + w>l 切换到右边的窗口
+
+        <Ctrl + w>H 将当前的窗口移动到左边
+        <Ctrl + w>J 将当前的窗口移动到下边
+        <Ctrl + w>K 将当前的窗口移动到下边
+        <Ctrl + w>L 将当前的窗口移动到右边
+
+     <Ctrl + w>n< 将当前窗口向左增大n列
+    <Ctrl + w>n> 将当前窗口向右增大n列
+	<Ctrl + w>= 使所有窗口等宽、等高
+	<Ctrl + w>_ 最大化活动窗口的高度
+	<Ctrl + w>| 最大化活动窗口的宽度
+	n<Ctrl + w>_ 把活动窗口的高度设为n行
+	n<Ctrl + w>| 把活动窗口的宽度设为n列
+Tab 操作(用的不多)：
+	:tabnew {filename} 创建一个新的标签页
+	:tabe[dit] {filename} 在新标签页中打开{filename}
+	<Ctrl + w>T 把当前窗口移到一个新标签页
+	:tabc[lose] 关闭当前标签页及其中的所有窗口
+	:tabo[nly] 只保留活动标签页，关闭所有其他标签页
+
+	Ex命令				Normal命令		用途
+	:tabn[ext] {N}		{N}gt			切换到编号为{N}的标签页
+	:tabn[ext]			gt				切换到下一标签页
+	:tabp[revious]		gT				切换到上一标签页
+	Note:标签一般建立两个就好，太多不好操作
+
+vim 的文本对象：
+[number]<command>[text object]
+number：表示次数
+command：表示命令，常用的有 d(elete), c(hange), y(yank)
+text object：表示要操作的文本对象，常用的有 w(ord), s(entence), p(aragraph)
+iw：表示inner word. 例如viw命令表示：进入visual模式选中当前的单词(不包含单词前后的空格等)
+aw：表示around word, 它不仅会选中当前的单词还会包含单词前后的空格
+vi( 选中()内的内容
+vi[ 选中[]内的内容
+vi< 选中<>内的内容
+vi{ 选中{}内的内容
+vi' 选中''内的内容
+vi" 选中""内的内容
+
+复制：y(yank)
+粘贴：p(put)
+剪贴：d
+yiw 复制一个单词
+yy 复制一行
+
+vim 寄存器使用：
+"{register}前缀可以指定寄存器，默认是无名寄存器
+"ayy 复制一行内容保存在寄存器a中
+"ap 将寄存器a中的内容复制
+vim可使用的寄存器有：
+有名寄存器：a-z
+复制专用寄存器："0
+系统剪贴板："+
+其他寄存器："% 当前文件名; ". 上次插入的文本
+:set clipboard=unnamed 直接将复制的内容保存到剪切板中，粘贴时也是选择剪切板中内容
+
+vim 的宏(macro)进行批量操作
+qa 开始录制
+对第一行进行相关操作后进入normal模式
+q 停止录制
+V 进入行选模式
+G 一直选到文件末尾
+:'<,'>normal @a 将第一行的操作重复在选中的行上
+
+vim 中的补全方式
+<Ctrl + n> 普通关键字补全
+<Ctrl + x><Ctrl + n> 当前缓冲区关键字补全
+<Ctrl + x><Ctrl + i> 包含文件关键字
+<Ctrl + x><Ctrl + j> 标签文件关键字
+<Ctrl + x><Ctrl + k> 字典查找
+<Ctrl + x><Ctrl + l> 整行补全
+<Ctrl + x><Ctrl + f> 文件名补全
+<Ctrl + x><Ctrl + o> 全能(Omni)补全
+常用的几种：
+<Ctrl + n>/<Ctrl + p> 补全单词(可使用<Ctrl + n>/<Ctrl + p>上下选择)
+<Ctrl + x><Ctrl + f> 补全文件名
+<Ctrl + x><Ctrl + o> 补全代码，需要开启文件类型检查，安装插件
+:r! echo % 表示插入当前文件名
+:r! echo %:p 表示插入当前文件的完整路径
+
+vim 更换配色
+:colorscheme 显示当前的主题配色
+:colorscheme <Ctrl + d> 显示所有的配色
+:colorscheme 配色名 修改配色
+
+vim 快速查询命令
+/：向后进行搜索
+?：向前进行搜索
+n/N：跳转到下一个/上一个匹配
+*/#：单词向后/向前匹配
+
+visual模式下常用命令：
+
+使用V选择行或者直接V进入visual模式
+使用Ctrl + v进行方块选择或者直接V进入visual模式
+u/U 将选中的文本改为全小写/大写
+
+insert模式下常用命令：
+删除上一个字符：Ctrl + h
+删除上一个单词：Ctrl + w
+删除当前行：Ctrl + u
+
+vim插件介绍
+Notetree
+
+
+
+
+
+
+
+
+vim 主题推荐：
+Blue2 darkblack znake xterm16  wood wintersday winterd win9xblueback widower visualstudio vice up twitchy
+turbo transparent
+
+xian xedit darkblack winter whitebox wasabi256 warriors-away(蓝色背景) warm_grey(灰色背景) wargrey(推荐)
+vylight vorange(推荐) vydark  vj vimicks vimbrant tomatosoup
+
+
+wwdc17 tigrana-256-light tatami tango-morning tabula
